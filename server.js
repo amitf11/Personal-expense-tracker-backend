@@ -2,9 +2,11 @@ import http from 'http'
 import path from 'path'
 import cors from 'cors'
 import express from 'express'
+import cookieParser from 'cookie-parser'
 
 import { authRoutes } from './api/auth/auth.routes.js'
 import { expenseRoutes } from './api/expense/expense.routes.js'
+import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -39,5 +41,5 @@ app.get('/**', (req, res) => {
 
 const port = process.env.PORT || 3030
 server.listen(port, () => {
-    logger.info('Server is running on port: ' + port)
+    console.log('Server is running on port: ' + port)
 })

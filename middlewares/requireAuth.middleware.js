@@ -1,5 +1,4 @@
 import { config } from '../config/index.js'
-import { logger } from '../services/logger.service.js'
 import { asyncLocalStorage } from '../services/als.service.js'
 
 export async function requireAuth(req, res, next) {
