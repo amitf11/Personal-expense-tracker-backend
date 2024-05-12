@@ -1,7 +1,6 @@
-import { dbService } from '../../services/db.service.js'
-import { logger } from '../../services/logger.service.js'
 import mongodb from 'mongodb'
 const { ObjectId } = mongodb
+import { dbService } from '../../services/db.service.js'
 
 export const userService = {
     add,
@@ -26,7 +25,7 @@ async function query(filterBy = {}) {
         })
         return users
     } catch (err) {
-        logger.error('cannot find users', err)
+        console.log('cannot find users', err)
         throw err
     }
 }
@@ -41,7 +40,7 @@ async function getById(userId) {
 
 
     } catch (err) {
-        logger.error(`while finding user by id: ${userId}`, err)
+        console.log(`while finding user by id: ${userId}`, err)
         throw err
     }
 }
@@ -52,7 +51,7 @@ async function getByUsername(username) {
         const user = await collection.findOne({ username })
         return user
     } catch (err) {
-        logger.error(`while finding user by username: ${username}`, err)
+        console.log('Cannot find user', err);
         throw err
     }
 }
@@ -62,7 +61,7 @@ async function remove(userId) {
         const collection = await dbService.getCollection('user')
         await collection.deleteOne({ _id: new ObjectId(userId) })
     } catch (err) {
-        logger.error(`cannot remove user ${userId}`, err)
+        console.log(`cannot remove user ${userId}`, err)
         throw err
     }
 }
@@ -78,25 +77,23 @@ async function update(user) {
         await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
         return userToSave
     } catch (err) {
-        logger.error(`cannot update user ${user._id}`, err)
+        console.log(`cannot update user ${user._id}`, err)
         throw err
     }
 }
 
 async function add(user) {
     try {
-        // peek only updatable fields!
         const userToAdd = {
             username: user.username,
             password: user.password,
             fullname: user.fullname,
-            imgUrl: user.imgUrl,
         }
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
         return userToAdd
     } catch (err) {
-        logger.error('cannot add user', err)
+        console.log('cannot add user', err)
         throw err
     }
 }

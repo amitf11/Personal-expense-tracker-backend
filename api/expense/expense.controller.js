@@ -1,9 +1,14 @@
+import { userService } from "../user/user.service.js"
 import { expenseService } from "./expense.service.js"
 
 
 export async function getExpenses(req, res) {
     try {
-        const expenses = await expenseService.query()
+        const { loggedinUser } = req
+        const { filterBy, sortBy } = req.query.params
+        const owner = await userService.getById(loggedinUser._id)
+        if (!owner) res.status(400).send({ err: 'Failed to find owner' })
+        const expenses = await expenseService.query(owner._id, filterBy, sortBy)
         res.json(expenses)
     } catch (err) {
         res.status(400).send({ err: 'Failed to get expenses' })
@@ -12,17 +17,38 @@ export async function getExpenses(req, res) {
 
 
 export async function addExpense(req, res) {
-    // const { loggedinUser } = req
-    // const owner = await userService.getById(loggedinUser._id)
+    const { loggedinUser } = req
+    const owner = await userService.getById(loggedinUser._id)
     try {
         const expense = req.body
-        // expense.owner = owner
-        // expense.owner.rate = expense.owner.rate || 0
+        expense.owner = owner
         const addedExpense = await expenseService.add(expense)
         console.log('Expense succesfully added', expense)
         res.json(addedExpense)
     } catch (err) {
         console.log('err:', err)
         res.status(400).send({ err: 'Failed to add expense' })
+    }
+}
+
+export async function updateExpense(req, res) {
+    try {
+        const expense = req.body
+        const updatedExpense = await expenseService.update(expense)
+        res.json(updatedExpense)
+    } catch (err) {
+        res.status(400).send({ err: 'Failed to update expense' })
+    }
+}
+
+export async function removeExpense(req, res) {
+    try {
+        const expenseId = req.params.id
+        console.log('expenseId:', expenseId)
+        const removedId = await expenseService.remove(expenseId)
+        res.send(removedId)
+    } catch (err) {
+        console.log('Failed to remove expense', err)
+        res.status(400).send({ err: 'Failed to remove expense' })
     }
 }

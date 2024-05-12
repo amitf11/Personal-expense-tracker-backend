@@ -18,6 +18,7 @@ export async function signup(req, res) {
         console.log(credentials);
         // Never log passwords
         const account = await authService.signup(credentials)
+        console.log('account:', account)
         const user = await authService.login(credentials.username, credentials.password)
         const loginToken = authService.getLoginToken(user)
         res.cookie('loginToken', loginToken, { sameSite: 'None', secure: true })
