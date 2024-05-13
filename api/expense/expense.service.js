@@ -8,7 +8,7 @@ export const expenseService = {
     remove
 }
 
-async function query(userId, filterBy = { description: '', minAmount: 0, maxAmount: Infinity }, sortBy = { by: 'createdAt', asc: false }) {
+async function query(userId, filterBy = { description: '', minAmount: 0, maxAmount: Infinity }, sortBy = { by: 'createdAt', asc: true }) {
     if (!userId) return res.status(400).send({ err: 'Failed to get expenses' })
     
     filterBy.minAmount = +filterBy.minAmount

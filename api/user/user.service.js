@@ -19,8 +19,6 @@ async function query(filterBy = {}) {
         users = users.map(user => {
             delete user.password
             user.createdAt = new ObjectId(user._id).getTimestamp()
-            // Returning fake fresh data
-            // user.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
             return user
         })
         return users
@@ -34,11 +32,9 @@ async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ _id: new ObjectId(userId) })
+        
         delete user.password
-
         return user
-
-
     } catch (err) {
         console.log(`while finding user by id: ${userId}`, err)
         throw err
@@ -68,9 +64,8 @@ async function remove(userId) {
 
 async function update(user) {
     try {
-        // peek only updatable properties
         const userToSave = {
-            _id: new ObjectId(user._id), // needed for the returnd obj
+            _id: new ObjectId(user._id), 
             fullname: user.fullname,
         }
         const collection = await dbService.getCollection('user')
