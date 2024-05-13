@@ -48,7 +48,6 @@ async function query(userId, filterBy = { description: '', minAmount: 0, maxAmou
         }
         
 
-        console.log(sortBy)
         const collection = await dbService.getCollection('expense')
         const expenses = await collection.find(criteria).toArray()
 
@@ -59,7 +58,6 @@ async function query(userId, filterBy = { description: '', minAmount: 0, maxAmou
         }
         
         return expenses
-
     } catch (err) {
         throw err
     }
