@@ -15,7 +15,9 @@ This project aims to build a simple yet functional personal expense tracker that
 
   Filtering: Users can filter expenses by category and date.
 
-Visualization: Expenses are visualized in a pie chart to show spending distribution by category. (under 'statistics button')
+  Visualization: Expenses are visualized in a pie chart to show spending distribution by category. (under 'statistics button')
+
+  Find repository here: https://github.com/amitf11/Personal-Expense-Tracker
 ## Back-end
 #### Server
 RESTful API: Developed using Node.js with Express to handle front-end requests.
