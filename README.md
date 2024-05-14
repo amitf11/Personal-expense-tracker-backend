@@ -1,8 +1,6 @@
 # Personal Expense Tracker Application
 
 
-A brief description of what this project does and who it's for
-
 
 ## Overview
 This project aims to build a simple yet functional personal expense tracker that enables users to input, categorize, and visualize their expenses over time. It includes front-end and back-end components.
